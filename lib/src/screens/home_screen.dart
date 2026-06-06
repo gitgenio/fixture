@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../data/world_cup_data.dart';
+import '../../models/group.dart';
+import 'group_screen.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  final List<String> groups = const [
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +27,14 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
             Expanded(
               child: GridView.builder(
-                itemCount: groups.length,
+                // itemCount: groups.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                 ),
                 itemBuilder: (context, index) {
-                  return _GroupButton(groupName: groups[index]);
+                  return _GroupButton(group: groups[index]);
                 },
               ),
             ),
@@ -78,24 +78,31 @@ class _HeaderWidget extends StatelessWidget {
 }
 
 class _GroupButton extends StatelessWidget {
-  final String groupName;
+  final Group group;
 
-  const _GroupButton({required this.groupName});
+  const _GroupButton({
+    required this.group,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Grupo $groupName'),
-            duration: const Duration(seconds: 1),
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => GroupScreen(
+              group: group,
+            ),
           ),
         );
       },
       child: Text(
-        groupName,
-        style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        group.name,
+        style: const TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
