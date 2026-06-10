@@ -1,12 +1,12 @@
 import 'package:fixture2026/models/team.dart';
 
-class Match {
+class FootballMatch {
   final Team home;
   final Team away;
 
   Team? winner;
 
-  Match({
+  FootballMatch({
     required this.home,
     required this.away,
     this.winner,

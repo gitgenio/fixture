@@ -2,7 +2,7 @@ import 'dart:math';
 
 import '../models/group.dart';
 import '../models/team.dart';
-import '../models/match.dart';
+import '../models/football_match.dart';
 import '../data/knockout_rules.dart';
 
 class KnockoutGenerator {
@@ -14,7 +14,7 @@ class KnockoutGenerator {
 
     final candidates = availableThirds
         .where(
-          (team) => allowedGroups.contains(team.group),
+          (team) => allowedGroups.contains(team.name),
     )
         .toList();
 
@@ -27,7 +27,7 @@ class KnockoutGenerator {
     return selected;
   }
 
-  static List<Match> generateRoundOf32(
+  static List<FootballMatch> generateRoundOf32(
       List<Group> groups,
       ) {
 
@@ -53,17 +53,17 @@ class KnockoutGenerator {
 
     return [
 
-      Match(
+      FootballMatch(
         home: second('A'),
         away: second('B'),
       ),
 
-      Match(
+      FootballMatch(
         home: first('C'),
         away: second('F'),
       ),
 
-      Match(
+      FootballMatch(
         home: first('E'),
         away: getThird(
           thirds,
@@ -71,17 +71,17 @@ class KnockoutGenerator {
         ),
       ),
 
-      Match(
+      FootballMatch(
         home: first('F'),
         away: second('C'),
       ),
 
-      Match(
+      FootballMatch(
         home: second('E'),
         away: second('I'),
       ),
 
-      Match(
+      FootballMatch(
         home: first('I'),
         away: getThird(
           thirds,
@@ -89,7 +89,7 @@ class KnockoutGenerator {
         ),
       ),
 
-      Match(
+      FootballMatch(
         home: first('A'),
         away: getThird(
           thirds,
@@ -97,7 +97,7 @@ class KnockoutGenerator {
         ),
       ),
 
-      Match(
+      FootballMatch(
         home: first('L'),
         away: getThird(
           thirds,
@@ -105,7 +105,7 @@ class KnockoutGenerator {
         ),
       ),
 
-      Match(
+      FootballMatch(
         home: first('G'),
         away: getThird(
           thirds,
@@ -113,7 +113,7 @@ class KnockoutGenerator {
         ),
       ),
 
-      Match(
+      FootballMatch(
         home: first('D'),
         away: getThird(
           thirds,
@@ -121,17 +121,17 @@ class KnockoutGenerator {
         ),
       ),
 
-      Match(
+      FootballMatch(
         home: first('H'),
         away: second('J'),
       ),
 
-      Match(
+      FootballMatch(
         home: second('K'),
         away: second('L'),
       ),
 
-      Match(
+      FootballMatch(
         home: first('B'),
         away: getThird(
           thirds,
@@ -139,12 +139,12 @@ class KnockoutGenerator {
         ),
       ),
 
-      Match(
+      FootballMatch(
         home: first('J'),
         away: second('H'),
       ),
 
-      Match(
+      FootballMatch(
         home: first('K'),
         away: getThird(
           thirds,
@@ -152,7 +152,7 @@ class KnockoutGenerator {
         ),
       ),
 
-      Match(
+      FootballMatch(
         home: second('D'),
         away: second('G'),
       ),
