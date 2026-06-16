@@ -1,3 +1,4 @@
+import 'package:fixture2026/src/screens/round_of_32_screen.dart';
 import 'package:flutter/material.dart';
 import '../../models/group.dart';
 import '../../models/team.dart';
@@ -15,20 +16,28 @@ class GroupScreen extends StatefulWidget {
 }
 
 class _GroupScreenState extends State<GroupScreen> {
-
   final List<Team> selectedTeams = [];
 
-  void selectTeam(Team team) {
+  @override
+  void initState() {
+    super.initState();
+    // ------------------------------------------------------------------
+    // Limpiamos las posiciones anteriores al entrar a la pantalla
+    // para evitar que queden estados corruptos (ej. dos primeros lugares)
+    // ------------------------------------------------------------------
+    for (var team in widget.group.teams) {
+      team.position = null;
+    }
+  }
 
+  void selectTeam(Team team) {
     if (selectedTeams.contains(team)) {
       return;
     }
 
     if (selectedTeams.length < 3) {
-
       setState(() {
         selectedTeams.add(team);
-
         team.position = selectedTeams.length;
       });
 
@@ -85,4 +94,6 @@ class _GroupScreenState extends State<GroupScreen> {
       ),
     );
   }
+
+
 }
