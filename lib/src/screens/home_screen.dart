@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../data/world_cup_data.dart';
 import '../../models/group.dart';
 import 'group_screen.dart';
-// import 'round_of_32_screen.dart'; // Asegúrate de importar la pantalla de 16avos
 import 'package:fixture2026/src/screens/round_of_32_screen.dart';
 
 class HomeScreen extends StatefulWidget {
