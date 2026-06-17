@@ -27,7 +27,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('FIFA World Cup'),
+        title: const Text(
+            'FIFA WORLD CUP',
+            style: TextStyle(fontSize: 28,
+                fontWeight: FontWeight.bold)
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -35,11 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             const _HeaderWidget(),
-            const SizedBox(height: 40),
-            const Text(
-              'GROUPS',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
+            const SizedBox(height: 20),
+            // const Text(
+            //   'GROUPS',
+            //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            // ),
             const SizedBox(height: 20),
             Expanded(
               child: GridView.builder(
@@ -62,10 +66,10 @@ class _HomeScreenState extends State<HomeScreen> {
             //---------------------------------------------------------
             // Botón dinámico para avanzar a los 16avos de final
             //---------------------------------------------------------
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
             SizedBox(
               width: double.infinity,
-              height: 55,
+              height: 35,
               child: ElevatedButton.icon(
                 // Si están listos, habilita el botón; si no, queda deshabilitado (null)
                 onPressed: isReadyForRoundOf32
@@ -115,18 +119,23 @@ class _HeaderWidget extends StatelessWidget {
       children: [
         Container(
           width: 80,
-          height: 80,
+          height: 70,
           decoration: BoxDecoration(
             border: Border.all(color: Theme.of(context).dividerColor),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Icon(Icons.sports_soccer, size: 40),
+            borderRadius: BorderRadius.circular(20),
+            image: const DecorationImage(
+                image: AssetImage("assets/images/cup.png"),
+                fit: BoxFit.cover,
+            ),
+           ),
         ),
         const SizedBox(width: 20),
         const Expanded(
           child: Text(
-            'FIFA\nWORLD CUP',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            'Groups',
+            style: TextStyle(fontSize: 28,
+                // fontWeight: FontWeight.bold
+            ),
           ),
         ),
       ],
