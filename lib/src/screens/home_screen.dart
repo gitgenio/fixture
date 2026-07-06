@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../data/world_cup_data.dart';
 import '../../models/group.dart';
+import '../../services/knockout_generator.dart';
 import 'group_screen.dart';
-import 'package:fixture2026/src/screens/round_of_32_screen.dart';
+import 'package:fixture2026/src/screens/knockout_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,19 +40,15 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             const _HeaderWidget(),
-            const SizedBox(height: 20),
-            // const Text(
-            //   'GROUPS',
-            //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            // ),
+            const SizedBox(height: 10),
             const SizedBox(height: 20),
             Expanded(
               child: GridView.builder(
                 itemCount: groups.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 10,
                 ),
                 itemBuilder: (context, index) {
                   return _GroupButton(
@@ -66,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //---------------------------------------------------------
             // Botón dinámico para avanzar a los 16avos de final
             //---------------------------------------------------------
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               height: 35,
@@ -77,7 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => RoundOf32Screen(groups: groups),
+                      builder: (_) => KnockoutScreen(
+                        title: '16avos de Final',
+                        matches: KnockoutGenerator.generateRoundOf32(groups),
+                        nextBracket: roundOf16Bracket,
+                        nextTitle: 'Octavos de Final',
+                      ),
                     ),
                   );
                 }
@@ -173,7 +175,7 @@ class _GroupButton extends StatelessWidget {
       },
       style: ElevatedButton.styleFrom(
         // Si el grupo está listo, le damos un color sutil (ej. verde claro) para distinguirlo
-        backgroundColor: isGroupFinished ? Colors.green.withOpacity(0.2) : null,
+        backgroundColor: isGroupFinished ? Colors.green.withOpacity(0.5) : null,
         side: isGroupFinished ? const BorderSide(color: Colors.green, width: 1.5) : null,
       ),
       child: Text(

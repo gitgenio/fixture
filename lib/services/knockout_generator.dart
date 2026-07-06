@@ -5,16 +5,47 @@ import '../models/team.dart';
 import '../models/football_match.dart';
 import '../data/knockout_rules.dart';
 
-class KnockoutGenerator {
+/// Cruces de 16avos -> Octavos
+const List<List<int>> roundOf16Bracket = [
+  [0, 3], // 1 vs 4
+  [2, 5], // 3 vs 6
+  [1, 4], // 2 vs 5
+  [6, 7], // 7 vs 8
 
+  [11,10], //12 vs11
+  [9,8],   //10 vs9
+  [14,13], //15 vs14
+  [12,15], //13 vs16
+];
+
+/// Cruces de Octavos -> Cuartos
+const List<List<int>> quarterFinalBracket = [
+  [0,1],
+  [2,3],
+  [4,5],
+  [6,7],
+];
+
+/// Cruces de Cuartos -> Semifinal
+const List<List<int>> semiFinalBracket = [
+  [0,1],
+  [2,3],
+];
+
+/// Cruces de Semifinal -> Final
+const List<List<int>> finalBracket = [
+  [0,1],
+];
+
+
+
+class KnockoutGenerator {
   static List<FootballMatch> generateRoundOf32(List<Group> groups) {
+
+
     // 1. Extraemos todos los terceros lugares de los grupos
     final thirds = groups
-        .map(
-          (group) => group.teams.firstWhere(
-            (team) => team.position == 3,
-      ),
-    )
+        .map((group) => group.teams.firstWhere((team) => team.position == 3))
         .toList();
 
     // Helpers para obtener primer y segundo lugar por letra de grupo
@@ -53,70 +84,42 @@ class KnockoutGenerator {
 
     // 3. Retornamos la estructura de los partidos limpia
     return [
-      FootballMatch(
-        home: second('A'),
-        away: second('B'),
-      ),
-      FootballMatch(
-        home: first('C'),
-        away: second('F'),
-      ),
-      FootballMatch(
-        home: first('E'),
-        away: pickThird(thirdPlaceRules[74]!),
-      ),
-      FootballMatch(
-        home: first('F'),
-        away: second('C'),
-      ),
-      FootballMatch(
-        home: second('E'),
-        away: second('I'),
-      ),
-      FootballMatch(
-        home: first('I'),
-        away: pickThird(thirdPlaceRules[77]!),
-      ),
-      FootballMatch(
-        home: first('A'),
-        away: pickThird(thirdPlaceRules[79]!),
-      ),
-      FootballMatch(
-        home: first('L'),
-        away: pickThird(thirdPlaceRules[80]!),
-      ),
-      FootballMatch(
-        home: first('G'),
-        away: pickThird(thirdPlaceRules[82]!),
-      ),
-      FootballMatch(
-        home: first('D'),
-        away: pickThird(thirdPlaceRules[81]!),
-      ),
-      FootballMatch(
-        home: first('H'),
-        away: second('J'),
-      ),
-      FootballMatch(
-        home: second('K'),
-        away: second('L'),
-      ),
-      FootballMatch(
-        home: first('B'),
-        away: pickThird(thirdPlaceRules[85]!),
-      ),
-      FootballMatch(
-        home: first('J'),
-        away: second('H'),
-      ),
-      FootballMatch(
-        home: first('K'),
-        away: pickThird(thirdPlaceRules[87]!),
-      ),
-      FootballMatch(
-        home: second('D'),
-        away: second('G'),
-      ),
+      FootballMatch(home: second('A'), away: second('B')),
+      FootballMatch(home: first('C'), away: second('F')),
+      FootballMatch(home: first('E'), away: pickThird(thirdPlaceRules[74]!)),
+      FootballMatch(home: first('F'), away: second('C')),
+      FootballMatch(home: second('E'), away: second('I')),
+      FootballMatch(home: first('I'), away: pickThird(thirdPlaceRules[77]!)),
+      FootballMatch(home: first('A'), away: pickThird(thirdPlaceRules[79]!)),
+      FootballMatch(home: first('L'), away: pickThird(thirdPlaceRules[80]!)),
+      FootballMatch(home: first('G'), away: pickThird(thirdPlaceRules[82]!)),
+      FootballMatch(home: first('D'), away: pickThird(thirdPlaceRules[81]!)),
+      FootballMatch(home: first('H'), away: second('J')),
+      FootballMatch(home: second('K'), away: second('L')),
+      FootballMatch(home: first('B'), away: pickThird(thirdPlaceRules[85]!)),
+      FootballMatch(home: first('J'), away: second('H')),
+      FootballMatch(home: first('K'), away: pickThird(thirdPlaceRules[87]!)),
+      FootballMatch(home: second('D'), away: second('G')),
     ];
   }
+
+  /// Genera cualquier ronda eliminatoria a partir de la ronda anterior.
+  ///
+  /// Ejemplo:
+  /// - 16 partidos -> 8 partidos
+  /// - 8 partidos -> 4 partidos
+  /// - 4 partidos -> 2 partidos
+  /// - 2 partidos -> 1 partido
+  static List<FootballMatch> generateNextRound({
+    required List<FootballMatch> previousRound,
+    required List<List<int>> bracket,
+  }) {
+    return bracket.map((pair) {
+      return FootballMatch(
+        home: previousRound[pair[0]].winner!,
+        away: previousRound[pair[1]].winner!,
+      );
+    }).toList();
+  }
+
 }
